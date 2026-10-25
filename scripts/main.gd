@@ -1,0 +1,518 @@
+extends Node3D
+## Procedural original assets: replace character roots without touching the poker engine.
+const Poker = preload("res://scripts/poker.gd")
+const GOLD = Color("ddb975")
+const INK = Color("141a2c")
+var game = Poker.new()
+var camera: Camera3D
+var card_root: Node3D
+var dealer_arm: Node3D
+var avatars: Array[Node3D] = []
+var seat_labels: Array[Label3D] = []
+var seats := [Vector3(0, 0, 2.35), Vector3(-3.15, 0, 0), Vector3(-0.85, 0, -2.35), Vector3(3.15, 0, 0)]
+var headline: Label
+var status: Label
+var history: RichTextLabel
+var hand_label: Label
+var call_button: Button
+var fold_button: Button
+var raise_button: Button
+var allin_button: Button
+var peek_button: Button
+var next_button: Button
+var raise_amount: SpinBox
+var sound: AudioStreamPlayer
+var ai_clock := 0.0
+var peek := false
+var orbit := 0.0
+var zoom := 5.3
+var time := 0.0
+var deal_tween: Tween
+var previous_hand := 0
+var previous_board := 0
+var animation_busy := false
+var muted := false
+var room_environment: Environment
+var high_quality := true
+
+func _ready() -> void:
+	build_room()
+	build_ui()
+	build_audio()
+	game.changed.connect(refresh)
+	game.new_hand()
+
+func material(color: Color, metal := 0.0, rough := 0.6) -> StandardMaterial3D:
+	var mat := StandardMaterial3D.new()
+	mat.albedo_color = color
+	mat.metallic = metal
+	mat.roughness = rough
+	return mat
+
+func shape(parent: Node3D, mesh: Mesh, pos: Vector3, mat: Material, size := Vector3.ONE) -> MeshInstance3D:
+	var node := MeshInstance3D.new()
+	node.mesh = mesh
+	node.material_override = mat
+	node.position = pos
+	node.scale = size
+	parent.add_child(node)
+	return node
+
+func box(parent: Node3D, pos: Vector3, size: Vector3, mat: Material) -> MeshInstance3D:
+	return shape(parent, BoxMesh.new(), pos, mat, size)
+
+func cylinder(parent: Node3D, pos: Vector3, radius: float, height: float, mat: Material, oval := 1.0) -> MeshInstance3D:
+	var mesh := CylinderMesh.new()
+	mesh.top_radius = radius
+	mesh.bottom_radius = radius
+	mesh.height = height
+	mesh.radial_segments = 64
+	return shape(parent, mesh, pos, mat, Vector3(1, 1, oval))
+
+func label_3d(parent: Node3D, value: String, pos: Vector3, font_size := 40) -> Label3D:
+	var label := Label3D.new()
+	label.text = value
+	label.position = pos
+	label.font_size = font_size
+	label.pixel_size = 0.003
+	label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+	label.no_depth_test = false
+	label.modulate = Color("f4e9d1")
+	parent.add_child(label)
+	return label
+
+func build_room() -> void:
+	var world := WorldEnvironment.new()
+	var environment := Environment.new()
+	environment.background_mode = Environment.BG_COLOR
+	environment.background_color = Color("111425")
+	environment.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
+	environment.ambient_light_color = Color("a5b4cf")
+	environment.ambient_light_energy = 0.48
+	environment.tonemap_mode = Environment.TONE_MAPPER_ACES
+	environment.ssao_enabled = true
+	environment.ssao_radius = 1.4
+	environment.ssao_intensity = 1.2
+	environment.glow_enabled = true
+	environment.glow_intensity = 0.6
+	room_environment = environment
+	world.environment = environment
+	add_child(world)
+	var wood := material(Color("35232c"), 0.1)
+	var brass := material(GOLD, 0.75, 0.26)
+	var velvet := material(Color("094d49"), 0.0, 0.94)
+	var leather := material(Color("181e28"), 0.05, 0.45)
+	var carpet := material(Color("261e36"))
+	var felt_noise := FastNoiseLite.new()
+	felt_noise.frequency = 0.45
+	felt_noise.seed = 13
+	var felt_texture := NoiseTexture2D.new()
+	felt_texture.width = 256
+	felt_texture.height = 256
+	felt_texture.noise = felt_noise
+	var ramp := Gradient.new()
+	ramp.set_color(0, Color("063c39"))
+	ramp.set_color(1, Color("16695c"))
+	felt_texture.color_ramp = ramp
+	velvet.albedo_color = Color.WHITE
+	velvet.albedo_texture = felt_texture
+	velvet.uv1_scale = Vector3(6, 6, 6)
+	var glow_mat := material(Color("fbd491"))
+	glow_mat.emission_enabled = true
+	glow_mat.emission = Color("ffbc67")
+	glow_mat.emission_energy_multiplier = 2.5
+	for x in [-8.0, -3.0, 3.0, 8.0]:
+		box(self, Vector3(x, 2.8, -6.5), Vector3(0.18, 1.5, 0.12), glow_mat)
+		var lamp := OmniLight3D.new()
+		lamp.position = Vector3(x, 2.8, -6.0)
+		lamp.light_color = Color("ffbd73")
+		lamp.light_energy = 0.7
+		lamp.omni_range = 3.0
+		add_child(lamp)
+	box(self, Vector3(0, -0.12, 0), Vector3(20, 0.2, 18), carpet)
+	box(self, Vector3(0, 3, -7), Vector3(20, 6, 0.25), wood)
+	for x in [-9.0, 9.0]: box(self, Vector3(x, 3, 0), Vector3(0.25, 6, 14), wood)
+	for x in range(-8, 9, 2):
+		box(self, Vector3(x, 2.9, -6.8), Vector3(0.07, 5.7, 0.06), brass)
+		box(self, Vector3(x, 0.012, 0), Vector3(0.025, 0.015, 14), brass)
+	for z in [-5.0, -3.0, 3.8, 5.8]: box(self, Vector3(0, 0.014, z), Vector3(18, 0.015, 0.025), brass)
+	label_3d(self, "C A S I N O   M I N U I T", Vector3(0, 4.1, -6.65), 100)
+	label_3d(self, "SALON PRIVÉ     •     TEXAS HOLD’EM", Vector3(0, 3.45, -6.65), 36)
+	# Bar, bottles and decorative frames; deliberately inexpensive geometry.
+	box(self, Vector3(-5.5, 0.65, -4.7), Vector3(4.2, 1.3, 0.8), leather)
+	box(self, Vector3(-5.5, 1.34, -4.7), Vector3(4.4, 0.12, 1), brass)
+	for i in 9:
+		cylinder(self, Vector3(-7.1 + i * 0.39, 1.61, -4.7), 0.08, 0.45, material(Color.from_hsv(i * 0.09, 0.6, 0.35)))
+	for x in [-5.0, 5.0]:
+		box(self, Vector3(x, 2.9, -6.7), Vector3(2.3, 1.6, 0.08), brass)
+		box(self, Vector3(x, 2.9, -6.62), Vector3(2.1, 1.4, 0.08), velvet)
+		label_3d(self, "♠   ♦   ♣   ♥", Vector3(x, 2.9, -6.5), 62)
+	cylinder(self, Vector3(0, 0.5, 0), 0.85, 1.0, leather, 0.75)
+	cylinder(self, Vector3(0, 1.05, 0), 2.8, 0.24, wood, 0.65)
+	cylinder(self, Vector3(0, 1.19, 0), 2.73, 0.12, brass, 0.65)
+	cylinder(self, Vector3(0, 1.27, 0), 2.64, 0.13, leather, 0.65)
+	cylinder(self, Vector3(0, 1.345, 0), 2.4, 0.025, velvet, 0.63)
+	var logo := label_3d(self, "M I N U I T\n10 / 20 • NO LIMIT", Vector3(0, 1.365, 0.62), 29)
+	logo.billboard = BaseMaterial3D.BILLBOARD_DISABLED
+	logo.rotation_degrees.x = -90
+	for i in seats.size():
+		var avatar := character(seats[i], [Color("263b53"), Color("292832"), Color("791c42"), Color("193f50")][i], i >= 2)
+		avatars.append(avatar)
+		seat_labels.append(label_3d(self, "", seats[i] + Vector3(0, 2.35, 0), 32))
+		if i == 0:
+			seat_labels[i].position = seats[i] + Vector3(-0.85, 1.5, 0.1)
+			seat_labels[i].font_size = 24
+		var chair := Node3D.new()
+		add_child(chair)
+		chair.position = seats[i]
+		chair.look_at(Vector3(0, 0, 0), Vector3.UP)
+		box(chair, Vector3(0, 0.64, 0), Vector3(0.82, 0.2, 0.78), leather)
+		box(chair, Vector3(0, 1.17, 0.35), Vector3(0.82, 1, 0.18), velvet)
+		for dx in [-0.3, 0.3]: cylinder(chair, Vector3(dx, 0.3, 0), 0.045, 0.6, brass)
+	var dealer := character(Vector3(1.15, 0.3, -2.25), Color("151922"), true)
+	dealer.name = "CroupiereAdulte"
+	dealer_arm = dealer.get_node("ArmPivot")
+	label_3d(self, "MAYA · CROUPIÈRE", Vector3(1.15, 2.9, -2.25), 30)
+	for x in [-3.0, 3.0]:
+		cylinder(self, Vector3(x, 4.4, -0.7), 0.7, 0.12, brass)
+		var light := OmniLight3D.new()
+		light.position = Vector3(x, 3.8, -0.7)
+		light.light_color = Color("ffddb0")
+		light.light_energy = 2.2
+		light.omni_range = 8
+		light.shadow_enabled = true
+		add_child(light)
+	var fill := OmniLight3D.new()
+	fill.position = Vector3(0, 3.5, 4)
+	fill.light_color = Color("92b9ed")
+	fill.light_energy = 1.2
+	fill.omni_range = 9
+	add_child(fill)
+	camera = Camera3D.new()
+	camera.fov = 68
+	camera.far = 45
+	camera.current = true
+	add_child(camera)
+	update_camera()
+	card_root = Node3D.new()
+	card_root.name = "AnimatedCards"
+	add_child(card_root)
+
+func character(pos: Vector3, clothing: Color, feminine: bool) -> Node3D:
+	var root := Node3D.new()
+	root.name = "ReplaceableAdultAvatar"
+	add_child(root)
+	root.position = pos
+	root.look_at(Vector3(0, pos.y, 0), Vector3.UP)
+	var skin := material(Color("c48c70"), 0.0, 0.8)
+	var fabric := material(clothing, 0.12, 0.62)
+	var hair := material(Color("292027"))
+	var torso := CapsuleMesh.new()
+	torso.radius = 0.24 if feminine else 0.29
+	torso.height = 0.75
+	shape(root, torso, Vector3(0, 1.2, 0), fabric)
+	if feminine:
+		var skirt := CylinderMesh.new()
+		skirt.top_radius = 0.2
+		skirt.bottom_radius = 0.36
+		skirt.height = 0.5
+		shape(root, skirt, Vector3(0, 0.8, 0), fabric)
+	var head := SphereMesh.new()
+	head.radius = 0.19
+	head.height = 0.43
+	shape(root, head, Vector3(0, 1.83, 0), skin)
+	shape(root, head, Vector3(0, 1.91, 0.05), hair, Vector3(1.03, 0.65, 1.05))
+	if feminine: box(root, Vector3(0, 1.73, 0.13), Vector3(0.34, 0.35, 0.13), hair)
+	for x in [-0.07, 0.07]:
+		box(root, Vector3(x, 1.86, -0.177), Vector3(0.035, 0.025, 0.025), material(Color("24212a")))
+		box(root, Vector3(x * 2, 0.55, -0.23), Vector3(0.18, 0.65, 0.23), fabric)
+		box(root, Vector3(x * 2, 0.22, -0.32), Vector3(0.2, 0.14, 0.36), hair)
+	var pivot := Node3D.new()
+	pivot.name = "ArmPivot"
+	pivot.position = Vector3(0.28, 1.5, 0)
+	root.add_child(pivot)
+	box(pivot, Vector3(0.04, -0.19, -0.12), Vector3(0.15, 0.4, 0.18), fabric)
+	box(pivot, Vector3(0.04, -0.36, -0.35), Vector3(0.14, 0.13, 0.38), skin)
+	box(root, Vector3(-0.3, 1.28, -0.16), Vector3(0.15, 0.43, 0.18), fabric)
+	box(root, Vector3(-0.3, 1.08, -0.4), Vector3(0.14, 0.13, 0.4), skin)
+	return root
+
+func panel_style() -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = Color(0.035, 0.05, 0.09, 0.94)
+	style.border_color = Color(0.62, 0.48, 0.27, 0.6)
+	style.set_border_width_all(1)
+	style.set_corner_radius_all(12)
+	style.content_margin_left = 18
+	style.content_margin_right = 18
+	style.content_margin_top = 12
+	style.content_margin_bottom = 12
+	return style
+
+func ui_label(value: String, size: int, parent: Node) -> Label:
+	var label := Label.new()
+	label.text = value
+	label.add_theme_font_size_override("font_size", size)
+	label.add_theme_color_override("font_color", Color("f1e7d5"))
+	parent.add_child(label)
+	return label
+
+func button(value: String, parent: Node, callback: Callable) -> Button:
+	var node := Button.new()
+	node.text = value
+	node.custom_minimum_size = Vector2(145, 44)
+	node.add_theme_font_size_override("font_size", 18)
+	var normal := panel_style()
+	normal.bg_color = Color("233a48")
+	node.add_theme_stylebox_override("normal", normal)
+	var hover := normal.duplicate()
+	hover.bg_color = Color("49635f")
+	node.add_theme_stylebox_override("hover", hover)
+	node.pressed.connect(callback)
+	parent.add_child(node)
+	return node
+
+func build_ui() -> void:
+	var layer := CanvasLayer.new()
+	add_child(layer)
+	var root := Control.new()
+	root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	root.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	layer.add_child(root)
+	var top := PanelContainer.new()
+	top.position = Vector2(24, 20)
+	top.size = Vector2(590, 106)
+	top.add_theme_stylebox_override("panel", panel_style())
+	root.add_child(top)
+	var titles := VBoxContainer.new()
+	top.add_child(titles)
+	ui_label("C A S I N O   M I N U I T", 27, titles).modulate = GOLD
+	headline = ui_label("", 19, titles)
+	ui_label("Crédits fictifs · hors ligne · 4 joueurs · adultes", 14, titles)
+	var side := PanelContainer.new()
+	side.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
+	side.position = Vector2(-324, 20)
+	side.size = Vector2(300, 270)
+	side.add_theme_stylebox_override("panel", panel_style())
+	root.add_child(side)
+	var info := VBoxContainer.new()
+	side.add_child(info)
+	ui_label("LE SALON", 20, info).modulate = GOLD
+	history = RichTextLabel.new()
+	history.custom_minimum_size = Vector2(260, 72)
+	history.add_theme_font_size_override("normal_font_size", 16)
+	history.scroll_following = true
+	info.add_child(history)
+	var sound_button := button("Son : activé", info, func(): pass)
+	sound_button.pressed.connect(func():
+		muted = not muted
+		sound_button.text = "Son : coupé" if muted else "Son : activé"
+	)
+	var quality_button := button("Rendu : élevé", info, func(): pass)
+	quality_button.pressed.connect(func():
+		high_quality = not high_quality
+		room_environment.ssao_enabled = high_quality
+		room_environment.glow_enabled = high_quality
+		get_viewport().msaa_3d = Viewport.MSAA_2X if high_quality else Viewport.MSAA_DISABLED
+		for node in get_children():
+			if node is OmniLight3D: node.shadow_enabled = high_quality and node.position.y > 3.7
+		quality_button.text = "Rendu : élevé" if high_quality else "Rendu : fluide"
+	)
+	button("Nouvelle partie", info, reset_game)
+	var bottom := PanelContainer.new()
+	bottom.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
+	bottom.offset_left = 24
+	bottom.offset_right = -24
+	bottom.offset_top = -225
+	bottom.offset_bottom = -18
+	bottom.add_theme_stylebox_override("panel", panel_style())
+	root.add_child(bottom)
+	var controls := VBoxContainer.new()
+	controls.add_theme_constant_override("separation", 8)
+	bottom.add_child(controls)
+	status = ui_label("", 21, controls)
+	status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	hand_label = ui_label("", 23, controls)
+	hand_label.modulate = GOLD
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 10)
+	controls.add_child(row)
+	fold_button = button("Passer [F]", row, func(): player_action("fold"))
+	call_button = button("Suivre [C]", row, func(): player_action("check_call"))
+	raise_amount = SpinBox.new()
+	raise_amount.custom_minimum_size = Vector2(135, 44)
+	raise_amount.step = 10
+	raise_amount.max_value = 4000
+	row.add_child(raise_amount)
+	raise_button = button("Relancer [R]", row, func(): player_action("raise", int(raise_amount.value)))
+	allin_button = button("Tapis", row, func(): player_action("raise", game.players[0].stack + game.players[0].bet))
+	peek_button = button("Voir cartes [V]", row, toggle_peek)
+	next_button = button("Main suivante", row, next_hand)
+	ui_label("Mise = total engagé sur ce tour • Q / E : caméra • molette : zoom • V : cartes • Échap : quitter", 15, controls)
+
+func build_audio() -> void:
+	sound = AudioStreamPlayer.new()
+	add_child(sound)
+
+func play_sound(pitch: float = 1.0) -> void:
+	if muted: return
+	var wav := AudioStreamWAV.new()
+	wav.format = AudioStreamWAV.FORMAT_16_BITS
+	wav.mix_rate = 22050
+	var bytes := PackedByteArray()
+	bytes.resize(3308)
+	for i in 1654:
+		var t := float(i) / 22050.0
+		var sample := sin(t * 2 * PI * 850 * pitch) * exp(-t * 65) * 0.16
+		bytes.encode_s16(i * 2, int(sample * 32767))
+	wav.data = bytes
+	sound.stream = wav
+	sound.play()
+
+func player_action(action: String, amount := 0) -> void:
+	if game.actor != 0 or animation_busy: return
+	if game.act(action, amount): play_sound(0.7)
+
+func toggle_peek() -> void:
+	peek = not peek
+	refresh_cards(false)
+	update_hand_label()
+
+func next_hand() -> void:
+	if not game.finished or animation_busy: return
+	peek = false
+	game.new_hand()
+
+func reset_game() -> void:
+	if not game.finished:
+		status.text = "Terminez cette main avant de recommencer la partie."
+		return
+	game = Poker.new()
+	game.changed.connect(refresh)
+	peek = false
+	game.new_hand()
+
+func refresh() -> void:
+	ai_clock = 0.0
+	var new_cards: bool = game.hand_no != previous_hand or game.board.size() != previous_board
+	previous_hand = game.hand_no
+	previous_board = game.board.size()
+	headline.text = "Main %d   •   %s   •   Pot %d" % [game.hand_no, game.STREETS[game.street], game.paid_pot if game.finished else game.pot()]
+	if game.finished:
+		status.text = game.result
+		if game.players[0].stack == 0: status.text += " · Vous êtes éliminé. Nouvelle partie pour rejouer."
+	else:
+		status.text = "À vous · %d à suivre · tapis %d" % [mini(game.to_call(0), game.players[0].stack), game.players[0].stack] if game.actor == 0 else "%s réfléchit…" % game.players[game.actor].name
+	for i in 4:
+		var p = game.players[i]
+		seat_labels[i].text = "%s%s\n%d jetons · %s" % ["● " if game.actor == i else "", p.name, p.stack, "PASSÉ" if p.folded else ("TAPIS" if p.stack == 0 else "%d misés" % p.bet)]
+		seat_labels[i].modulate = GOLD if game.actor == i else Color("dfddd9")
+	history.text = "\n".join(game.log_lines.slice(maxi(0, game.log_lines.size() - 10)))
+	var minimum: int = mini(game.minimum_target(), game.players[0].bet + game.players[0].stack)
+	raise_amount.min_value = minimum
+	raise_amount.max_value = game.players[0].bet + game.players[0].stack
+	raise_amount.value = clampf(raise_amount.value, minimum, raise_amount.max_value)
+	call_button.text = "Parole [C]" if game.to_call(0) == 0 else "Suivre %d [C]" % mini(game.to_call(0), game.players[0].stack)
+	raise_button.text = "Miser [R]" if game.current_bet == 0 else "Relancer [R]"
+	refresh_cards(new_cards)
+	update_hand_label()
+	update_buttons()
+
+func update_hand_label() -> void:
+	var hole: Array = game.players[0].hole
+	hand_label.text = "Vos cartes : " + (Poker.cards_text(hole) if peek or game.revealed else "▧  ▧   — appuyez sur V pour regarder")
+	if (peek or game.revealed) and hole.size() == 2 and game.board.size() >= 3:
+		hand_label.text += "   •   " + Poker.hand_name(Poker.evaluate(hole + game.board))
+
+func update_buttons() -> void:
+	var turn: bool = game.actor == 0 and not game.finished and not animation_busy
+	fold_button.disabled = not turn
+	call_button.disabled = not turn
+	raise_button.disabled = not turn or not game.can_raise(0)
+	allin_button.disabled = raise_button.disabled
+	raise_amount.editable = not raise_button.disabled
+	next_button.disabled = not game.finished or animation_busy or game.players[0].stack <= 0
+
+func card_mesh(card: int, visible_face: bool, target: Vector3, angle: float, delay: float) -> void:
+	var root := Node3D.new()
+	card_root.add_child(root)
+	var mat := material(Color("eee8d8") if visible_face else Color("213b65"), 0.0, 0.75)
+	box(root, Vector3.ZERO, Vector3(0.37, 0.018, 0.53), mat)
+	var value := label_3d(root, Poker.card_text(card) if visible_face else "◆", Vector3(0, 0.016, 0), 50)
+	value.billboard = BaseMaterial3D.BILLBOARD_DISABLED
+	value.rotation_degrees.x = -90
+	value.modulate = (Color("b02945") if card / 13 in [1, 2] else Color("152239")) if visible_face else GOLD
+	root.rotation.y = angle
+	if delay >= 0:
+		root.position = Vector3(1.1, 1.75, -1.65)
+		var tween := create_tween()
+		tween.tween_interval(delay)
+		tween.tween_callback(func(): play_sound(1.4))
+		tween.tween_property(root, "position", target + Vector3(0, 0.2, 0), 0.2).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+		tween.tween_property(root, "position", target, 0.15)
+	else: root.position = target
+
+func refresh_cards(animate: bool) -> void:
+	for node in card_root.get_children():
+		card_root.remove_child(node)
+		node.queue_free()
+	var delay := 0.0
+	for i in 4:
+		var p = game.players[i]
+		if p.folded: continue
+		var anchor: Vector3 = seats[i] * 0.57
+		anchor.y = 1.4
+		for j in p.hole.size():
+			card_mesh(p.hole[j], (i == 0 and peek) or game.revealed, anchor + Vector3((j - 0.5) * 0.41, 0, 0), 0.0, delay if animate else -1.0)
+			delay += 0.12
+	for j in game.board.size():
+		card_mesh(game.board[j], true, Vector3((j - 2) * 0.47, 1.4, -0.2), 0.0, delay if animate else -1.0)
+		delay += 0.12
+	# Bets and pot use reusable low-poly stacks.
+	for i in 4:
+		var p = game.players[i]
+		var spot: Vector3 = seats[i] * 0.42
+		for k in mini(10, int(ceil(p.bet / 20.0))):
+			cylinder(card_root, Vector3(spot.x + 0.42, 1.39 + k * 0.035, spot.z), 0.095, 0.03, material([Color("c3af69"), Color("bf4561"), Color("6eaeb5")][k % 3]))
+	if animate:
+		if deal_tween: deal_tween.kill()
+		animation_busy = true
+		deal_tween = create_tween()
+		for i in maxi(1, int(delay / 0.24)):
+			deal_tween.tween_property(dealer_arm, "rotation:x", -0.65, 0.12)
+			deal_tween.tween_property(dealer_arm, "rotation:x", 0.0, 0.12)
+		deal_tween.tween_interval(0.4)
+		deal_tween.tween_callback(func():
+			animation_busy = false
+			update_buttons()
+		)
+
+func update_camera() -> void:
+	camera.position = Vector3(sin(orbit) * zoom, 3.5, cos(orbit) * zoom)
+	camera.look_at(Vector3(0, 1.1, -0.2), Vector3.UP)
+
+func _process(delta: float) -> void:
+	time += delta
+	for i in avatars.size(): avatars[i].rotation.z = sin(time * 1.2 + i) * 0.012
+	if Input.is_physical_key_pressed(KEY_Q):
+		orbit -= delta * 0.5
+		update_camera()
+	if Input.is_physical_key_pressed(KEY_E):
+		orbit += delta * 0.5
+		update_camera()
+	if not game.finished and game.actor > 0 and not animation_busy:
+		ai_clock += delta
+		if ai_clock >= 1.05: game.ai_action()
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.pressed:
+		if event.button_index == MOUSE_BUTTON_WHEEL_UP: zoom = maxf(3.8, zoom - 0.25)
+		if event.button_index == MOUSE_BUTTON_WHEEL_DOWN: zoom = minf(7.0, zoom + 0.25)
+		update_camera()
+	if event is InputEventKey and event.pressed and not event.echo:
+		match event.physical_keycode:
+			KEY_V: toggle_peek()
+			KEY_F: player_action("fold")
+			KEY_C: player_action("check_call")
+			KEY_R: player_action("raise", int(raise_amount.value))
+			KEY_ESCAPE: get_tree().quit()
