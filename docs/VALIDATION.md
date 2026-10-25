@@ -28,3 +28,9 @@ Pour reproduire les contrôles sans écran : `./tests/run.sh`. Le scénario de s
 La comparaison avant/après et les limites artistiques sont décrites dans [VISUAL_REWORK.md](VISUAL_REWORK.md). Les outils graphiques temporaires ont été extraits sous `/tmp` depuis des paquets Debian vérifiés ; ils ne sont pas nécessaires sur Windows. Tous les modèles et toutes les textures de jeu sont livrés dans le dépôt.
 
 ![Refonte Casino Minuit — capture réelle Forward+](preview.png)
+
+## Lanceur Windows a double-clic
+
+`Tester_Poker_Windows.zip` contient le fichier hybride CMD / PowerShell `Tester_Poker.cmd` et les instructions courtes. Les archives Godot et jeu ont été téléchargées par la fonction réelle du lanceur et vérifiées : SHA-512 officiel Godot 4.6.3 Windows et SHA-256 de l’archive du jeu figée à `8e2a35d`. Les chemins internes de ces deux ZIP et le contenu du ZIP du lanceur ont été contrôlés. Le script a été analysé avec PowerShell 7.5.4 sous Linux et relu pour sa compatibilité PowerShell 5.1.
+
+Le double-clic Windows, l’import par le moteur Windows, la création du raccourci COM et le démarrage de la fenêtre Windows n’ont pas été exécutés dans ce cloud Linux. Aucun droit administrateur ni désactivation de vérification TLS ou d’empreinte n’est demandé par le lanceur.

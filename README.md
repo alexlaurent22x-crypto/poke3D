@@ -6,6 +6,18 @@
 
 Premier prototype jouable de Texas Hold’em 3D, hors ligne, pour **Godot 4.6.3 Standard** et **Windows 10 64 bits**. Une table, un joueur et trois adversaires IA. Salle Art déco et mobilier originaux, personnages adultes dérivés de la base humaine **MakeHuman CC0**, préparés dans Blender et livrés en GLB. Aucun téléchargement d’asset n’est nécessaire pour jouer.
 
+## Tester avec un double-clic (Windows 10 64 bits)
+
+1. [Téléchargez le petit ZIP du lanceur Windows](https://github.com/alexlaurent22x-crypto/poke3D/raw/refs/heads/main/Tester_Poker_Windows.zip) et extrayez-le.
+2. Double-cliquez sur **Tester_Poker.cmd** dans le dossier extrait. Au premier lancement, il télécharge Godot officiel et cette version du jeu, vérifie les empreintes des archives et prépare les modèles 3D (environ 100 Mo, connexion Internet nécessaire).
+3. Le jeu démarre directement. Un raccourci **Casino Minuit** est créé sur votre Bureau pour les prochains essais.
+
+Aucun droit administrateur ni passage par l’éditeur n’est nécessaire. Les téléchargements sont conservés dans `%LOCALAPPDATA%\CasinoMinuit`. Si le lanceur est à côté de `project.godot`, il utilise ce projet local ; sinon, il télécharge la version de la refonte visuelle `8e2a35d` (version figée, pas de mise à jour automatique).
+
+Si Vulkan pose problème, ouvrez un terminal dans le dossier du lanceur et exécutez `Tester_Poker.cmd opengl`. Cela lance le mode compatible et adapte le raccourci du Bureau.
+
+Les téléchargements et leur intégrité sont vérifiables dans le script. La création du raccourci Windows et le démarrage par double-clic restent à essayer sur Windows ; ces opérations ne sont pas exécutables dans le cloud Linux.
+
 ## Lancer sous Windows 10
 
 1. Téléchargez **Godot 4.6.3 Standard pour Windows x86_64** depuis [les archives officielles](https://godotengine.org/download/archive/4.6.3-stable/). Pas besoin de la version .NET. Extrayez le ZIP.
