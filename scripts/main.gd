@@ -1,12 +1,15 @@
 extends Node3D
-## Procedural original assets: replace character roots without touching the poker engine.
+## Presentation layer: CC0-derived adult meshes and original Art Deco scene assets.
 const Poker = preload("res://scripts/poker.gd")
+const Room = preload("res://scripts/casino_room.gd")
+const Table = preload("res://scripts/table_visuals.gd")
+const CHARACTER_PATHS = ["res://assets/characters/gabriel.glb", "res://assets/characters/gabriel.glb", "res://assets/characters/elise.glb", "res://assets/characters/nora.glb"]
 const GOLD = Color("ddb975")
 const INK = Color("141a2c")
 var game = Poker.new()
 var camera: Camera3D
 var card_root: Node3D
-var dealer_arm: Node3D
+var dealer_player: AnimationPlayer
 var avatars: Array[Node3D] = []
 var seat_labels: Array[Label3D] = []
 var seats := [Vector3(0, 0, 2.35), Vector3(-3.15, 0, 0), Vector3(-0.85, 0, -2.35), Vector3(3.15, 0, 0)]
@@ -24,8 +27,8 @@ var raise_amount: SpinBox
 var sound: AudioStreamPlayer
 var ai_clock := 0.0
 var peek := false
-var orbit := 0.0
-var zoom := 5.3
+var orbit := 0.22
+var zoom := 6.1
 var time := 0.0
 var deal_tween: Tween
 var previous_hand := 0
@@ -85,111 +88,37 @@ func build_room() -> void:
 	var world := WorldEnvironment.new()
 	var environment := Environment.new()
 	environment.background_mode = Environment.BG_COLOR
-	environment.background_color = Color("111425")
+	environment.background_color = Color("11151b")
 	environment.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
-	environment.ambient_light_color = Color("a5b4cf")
+	environment.ambient_light_color = Color("b8c0c8")
 	environment.ambient_light_energy = 0.48
 	environment.tonemap_mode = Environment.TONE_MAPPER_ACES
 	environment.ssao_enabled = true
-	environment.ssao_radius = 1.4
-	environment.ssao_intensity = 1.2
+	environment.ssao_radius = 0.6
+	environment.ssao_intensity = 1.3
 	environment.glow_enabled = true
-	environment.glow_intensity = 0.6
+	environment.glow_intensity = 0.28
 	room_environment = environment
 	world.environment = environment
 	add_child(world)
-	var wood := material(Color("35232c"), 0.1)
-	var brass := material(GOLD, 0.75, 0.26)
-	var velvet := material(Color("094d49"), 0.0, 0.94)
-	var leather := material(Color("181e28"), 0.05, 0.45)
-	var carpet := material(Color("261e36"))
-	var felt_noise := FastNoiseLite.new()
-	felt_noise.frequency = 0.45
-	felt_noise.seed = 13
-	var felt_texture := NoiseTexture2D.new()
-	felt_texture.width = 256
-	felt_texture.height = 256
-	felt_texture.noise = felt_noise
-	var ramp := Gradient.new()
-	ramp.set_color(0, Color("063c39"))
-	ramp.set_color(1, Color("16695c"))
-	felt_texture.color_ramp = ramp
-	velvet.albedo_color = Color.WHITE
-	velvet.albedo_texture = felt_texture
-	velvet.uv1_scale = Vector3(6, 6, 6)
-	var glow_mat := material(Color("fbd491"))
-	glow_mat.emission_enabled = true
-	glow_mat.emission = Color("ffbc67")
-	glow_mat.emission_energy_multiplier = 2.5
-	for x in [-8.0, -3.0, 3.0, 8.0]:
-		box(self, Vector3(x, 2.8, -6.5), Vector3(0.18, 1.5, 0.12), glow_mat)
-		var lamp := OmniLight3D.new()
-		lamp.position = Vector3(x, 2.8, -6.0)
-		lamp.light_color = Color("ffbd73")
-		lamp.light_energy = 0.7
-		lamp.omni_range = 3.0
-		add_child(lamp)
-	box(self, Vector3(0, -0.12, 0), Vector3(20, 0.2, 18), carpet)
-	box(self, Vector3(0, 3, -7), Vector3(20, 6, 0.25), wood)
-	for x in [-9.0, 9.0]: box(self, Vector3(x, 3, 0), Vector3(0.25, 6, 14), wood)
-	for x in range(-8, 9, 2):
-		box(self, Vector3(x, 2.9, -6.8), Vector3(0.07, 5.7, 0.06), brass)
-		box(self, Vector3(x, 0.012, 0), Vector3(0.025, 0.015, 14), brass)
-	for z in [-5.0, -3.0, 3.8, 5.8]: box(self, Vector3(0, 0.014, z), Vector3(18, 0.015, 0.025), brass)
-	label_3d(self, "C A S I N O   M I N U I T", Vector3(0, 4.1, -6.65), 100)
-	label_3d(self, "SALON PRIVÉ     •     TEXAS HOLD’EM", Vector3(0, 3.45, -6.65), 36)
-	# Bar, bottles and decorative frames; deliberately inexpensive geometry.
-	box(self, Vector3(-5.5, 0.65, -4.7), Vector3(4.2, 1.3, 0.8), leather)
-	box(self, Vector3(-5.5, 1.34, -4.7), Vector3(4.4, 0.12, 1), brass)
-	for i in 9:
-		cylinder(self, Vector3(-7.1 + i * 0.39, 1.61, -4.7), 0.08, 0.45, material(Color.from_hsv(i * 0.09, 0.6, 0.35)))
-	for x in [-5.0, 5.0]:
-		box(self, Vector3(x, 2.9, -6.7), Vector3(2.3, 1.6, 0.08), brass)
-		box(self, Vector3(x, 2.9, -6.62), Vector3(2.1, 1.4, 0.08), velvet)
-		label_3d(self, "♠   ♦   ♣   ♥", Vector3(x, 2.9, -6.5), 62)
-	cylinder(self, Vector3(0, 0.5, 0), 0.85, 1.0, leather, 0.75)
-	cylinder(self, Vector3(0, 1.05, 0), 2.8, 0.24, wood, 0.65)
-	cylinder(self, Vector3(0, 1.19, 0), 2.73, 0.12, brass, 0.65)
-	cylinder(self, Vector3(0, 1.27, 0), 2.64, 0.13, leather, 0.65)
-	cylinder(self, Vector3(0, 1.345, 0), 2.4, 0.025, velvet, 0.63)
-	var logo := label_3d(self, "M I N U I T\n10 / 20 • NO LIMIT", Vector3(0, 1.365, 0.62), 29)
-	logo.billboard = BaseMaterial3D.BILLBOARD_DISABLED
-	logo.rotation_degrees.x = -90
+	Room.build(self)
+	Table.build(self)
 	for i in seats.size():
-		var avatar := character(seats[i], [Color("263b53"), Color("292832"), Color("791c42"), Color("193f50")][i], i >= 2)
+		var avatar := character(seats[i], CHARACTER_PATHS[i])
 		avatars.append(avatar)
-		seat_labels.append(label_3d(self, "", seats[i] + Vector3(0, 2.35, 0), 32))
+		seat_labels.append(label_3d(self, "", seats[i] + Vector3(0, 2.36, 0), 28))
+		seat_labels[i].modulate = Color("c9c4b9")
+		seat_labels[i].pixel_size = 0.0048
 		if i == 0:
-			seat_labels[i].position = seats[i] + Vector3(-0.85, 1.5, 0.1)
-			seat_labels[i].font_size = 24
-		var chair := Node3D.new()
-		add_child(chair)
-		chair.position = seats[i]
-		chair.look_at(Vector3(0, 0, 0), Vector3.UP)
-		box(chair, Vector3(0, 0.64, 0), Vector3(0.82, 0.2, 0.78), leather)
-		box(chair, Vector3(0, 1.17, 0.35), Vector3(0.82, 1, 0.18), velvet)
-		for dx in [-0.3, 0.3]: cylinder(chair, Vector3(dx, 0.3, 0), 0.045, 0.6, brass)
-	var dealer := character(Vector3(1.15, 0.3, -2.25), Color("151922"), true)
+			seat_labels[i].position = seats[i] + Vector3(-0.75, 1.3, 0.1)
+			seat_labels[i].font_size = 20
+		chair(seats[i])
+	var dealer := character(Vector3(1.15, 0.1, -2.3), "res://assets/characters/maya.glb")
 	dealer.name = "CroupiereAdulte"
-	dealer_arm = dealer.get_node("ArmPivot")
-	label_3d(self, "MAYA · CROUPIÈRE", Vector3(1.15, 2.9, -2.25), 30)
-	for x in [-3.0, 3.0]:
-		cylinder(self, Vector3(x, 4.4, -0.7), 0.7, 0.12, brass)
-		var light := OmniLight3D.new()
-		light.position = Vector3(x, 3.8, -0.7)
-		light.light_color = Color("ffddb0")
-		light.light_energy = 2.2
-		light.omni_range = 8
-		light.shadow_enabled = true
-		add_child(light)
-	var fill := OmniLight3D.new()
-	fill.position = Vector3(0, 3.5, 4)
-	fill.light_color = Color("92b9ed")
-	fill.light_energy = 1.2
-	fill.omni_range = 9
-	add_child(fill)
+	dealer_player = dealer.find_child("AnimationPlayer", true, false) as AnimationPlayer
+	label_3d(self, "MAYA  /  CROUPIÈRE", Vector3(1.15, 2.42, -2.3), 21)
 	camera = Camera3D.new()
-	camera.fov = 68
+	camera.fov = 56
 	camera.far = 45
 	camera.current = true
 	add_child(camera)
@@ -198,51 +127,52 @@ func build_room() -> void:
 	card_root.name = "AnimatedCards"
 	add_child(card_root)
 
-func character(pos: Vector3, clothing: Color, feminine: bool) -> Node3D:
+func character(pos: Vector3, path: String) -> Node3D:
 	var root := Node3D.new()
-	root.name = "ReplaceableAdultAvatar"
+	root.name = "AdultAvatar"
 	add_child(root)
 	root.position = pos
 	root.look_at(Vector3(0, pos.y, 0), Vector3.UP)
-	var skin := material(Color("c48c70"), 0.0, 0.8)
-	var fabric := material(clothing, 0.12, 0.62)
-	var hair := material(Color("292027"))
-	var torso := CapsuleMesh.new()
-	torso.radius = 0.24 if feminine else 0.29
-	torso.height = 0.75
-	shape(root, torso, Vector3(0, 1.2, 0), fabric)
-	if feminine:
-		var skirt := CylinderMesh.new()
-		skirt.top_radius = 0.2
-		skirt.bottom_radius = 0.36
-		skirt.height = 0.5
-		shape(root, skirt, Vector3(0, 0.8, 0), fabric)
-	var head := SphereMesh.new()
-	head.radius = 0.19
-	head.height = 0.43
-	shape(root, head, Vector3(0, 1.83, 0), skin)
-	shape(root, head, Vector3(0, 1.91, 0.05), hair, Vector3(1.03, 0.65, 1.05))
-	if feminine: box(root, Vector3(0, 1.73, 0.13), Vector3(0.34, 0.35, 0.13), hair)
-	for x in [-0.07, 0.07]:
-		box(root, Vector3(x, 1.86, -0.177), Vector3(0.035, 0.025, 0.025), material(Color("24212a")))
-		box(root, Vector3(x * 2, 0.55, -0.23), Vector3(0.18, 0.65, 0.23), fabric)
-		box(root, Vector3(x * 2, 0.22, -0.32), Vector3(0.2, 0.14, 0.36), hair)
-	var pivot := Node3D.new()
-	pivot.name = "ArmPivot"
-	pivot.position = Vector3(0.28, 1.5, 0)
-	root.add_child(pivot)
-	box(pivot, Vector3(0.04, -0.19, -0.12), Vector3(0.15, 0.4, 0.18), fabric)
-	box(pivot, Vector3(0.04, -0.36, -0.35), Vector3(0.14, 0.13, 0.38), skin)
-	box(root, Vector3(-0.3, 1.28, -0.16), Vector3(0.15, 0.43, 0.18), fabric)
-	box(root, Vector3(-0.3, 1.08, -0.4), Vector3(0.14, 0.13, 0.4), skin)
+	var packed := load(path) as PackedScene
+	var model := packed.instantiate() as Node3D
+	root.add_child(model)
+	var player := model.find_child("AnimationPlayer", true, false) as AnimationPlayer
+	if player and player.has_animation("idle"):
+		player.get_animation("idle").loop_mode = Animation.LOOP_LINEAR
+		player.play("idle")
 	return root
+
+func chair(pos: Vector3) -> void:
+	var root := Node3D.new()
+	add_child(root)
+	root.position = pos
+	root.look_at(Vector3(0, 0, 0), Vector3.UP)
+	var leather := material(Color("152725"), 0.02, 0.64)
+	var brass := material(Color("8b7046"), 0.75, 0.3)
+	var seat := SphereMesh.new()
+	seat.height = 0.22
+	seat.radius = 0.43
+	shape(root, seat, Vector3(0, 0.65, 0), leather, Vector3(1, 1, 0.95))
+	var back := SphereMesh.new()
+	back.height = 0.85
+	back.radius = 0.42
+	shape(root, back, Vector3(0, 1.05, 0.3), leather, Vector3(1, 1, 0.27))
+	for x in [-0.3, 0.3]:
+		cylinder(root, Vector3(x, 0.3, 0.18), 0.025, 0.6, brass)
+		cylinder(root, Vector3(x, 0.3, -0.25), 0.025, 0.6, brass)
+	for x in [-0.39, 0.39]:
+		var armrest := SphereMesh.new()
+		armrest.radius = 0.075
+		armrest.height = 0.6
+		var node := shape(root, armrest, Vector3(x, 0.92, 0), leather)
+		node.rotation.x = PI / 2
 
 func panel_style() -> StyleBoxFlat:
 	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.035, 0.05, 0.09, 0.94)
+	style.bg_color = Color(0.018, 0.024, 0.029, 0.88)
 	style.border_color = Color(0.62, 0.48, 0.27, 0.6)
 	style.set_border_width_all(1)
-	style.set_corner_radius_all(12)
+	style.set_corner_radius_all(5)
 	style.content_margin_left = 18
 	style.content_margin_right = 18
 	style.content_margin_top = 12
@@ -263,10 +193,10 @@ func button(value: String, parent: Node, callback: Callable) -> Button:
 	node.custom_minimum_size = Vector2(145, 44)
 	node.add_theme_font_size_override("font_size", 18)
 	var normal := panel_style()
-	normal.bg_color = Color("233a48")
+	normal.bg_color = Color("24322f")
 	node.add_theme_stylebox_override("normal", normal)
 	var hover := normal.duplicate()
-	hover.bg_color = Color("49635f")
+	hover.bg_color = Color("4c5343")
 	node.add_theme_stylebox_override("hover", hover)
 	node.pressed.connect(callback)
 	parent.add_child(node)
@@ -281,25 +211,25 @@ func build_ui() -> void:
 	layer.add_child(root)
 	var top := PanelContainer.new()
 	top.position = Vector2(24, 20)
-	top.size = Vector2(590, 106)
+	top.size = Vector2(480, 90)
 	top.add_theme_stylebox_override("panel", panel_style())
 	root.add_child(top)
 	var titles := VBoxContainer.new()
 	top.add_child(titles)
-	ui_label("C A S I N O   M I N U I T", 27, titles).modulate = GOLD
+	ui_label("M I N U I T   /   P O K E R", 24, titles).modulate = GOLD
 	headline = ui_label("", 19, titles)
-	ui_label("Crédits fictifs · hors ligne · 4 joueurs · adultes", 14, titles)
+	ui_label("SALON PRIVÉ     /     TEXAS HOLD’EM     /     10–20", 14, titles)
 	var side := PanelContainer.new()
 	side.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
-	side.position = Vector2(-324, 20)
-	side.size = Vector2(300, 270)
+	side.position = Vector2(-270, 20)
+	side.size = Vector2(246, 230)
 	side.add_theme_stylebox_override("panel", panel_style())
 	root.add_child(side)
 	var info := VBoxContainer.new()
 	side.add_child(info)
 	ui_label("LE SALON", 20, info).modulate = GOLD
 	history = RichTextLabel.new()
-	history.custom_minimum_size = Vector2(260, 72)
+	history.custom_minimum_size = Vector2(200, 58)
 	history.add_theme_font_size_override("normal_font_size", 16)
 	history.scroll_following = true
 	info.add_child(history)
@@ -314,8 +244,8 @@ func build_ui() -> void:
 		room_environment.ssao_enabled = high_quality
 		room_environment.glow_enabled = high_quality
 		get_viewport().msaa_3d = Viewport.MSAA_2X if high_quality else Viewport.MSAA_DISABLED
-		for node in get_children():
-			if node is OmniLight3D: node.shadow_enabled = high_quality and node.position.y > 3.7
+		for node in find_children("TableKey*", "Light3D", true, false):
+			node.shadow_enabled = high_quality
 		quality_button.text = "Rendu : élevé" if high_quality else "Rendu : fluide"
 	)
 	button("Nouvelle partie", info, reset_game)
@@ -323,7 +253,7 @@ func build_ui() -> void:
 	bottom.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
 	bottom.offset_left = 24
 	bottom.offset_right = -24
-	bottom.offset_top = -225
+	bottom.offset_top = -190
 	bottom.offset_bottom = -18
 	bottom.add_theme_stylebox_override("panel", panel_style())
 	root.add_child(bottom)
@@ -434,14 +364,7 @@ func update_buttons() -> void:
 	next_button.disabled = not game.finished or animation_busy or game.players[0].stack <= 0
 
 func card_mesh(card: int, visible_face: bool, target: Vector3, angle: float, delay: float) -> void:
-	var root := Node3D.new()
-	card_root.add_child(root)
-	var mat := material(Color("eee8d8") if visible_face else Color("213b65"), 0.0, 0.75)
-	box(root, Vector3.ZERO, Vector3(0.37, 0.018, 0.53), mat)
-	var value := label_3d(root, Poker.card_text(card) if visible_face else "◆", Vector3(0, 0.016, 0), 50)
-	value.billboard = BaseMaterial3D.BILLBOARD_DISABLED
-	value.rotation_degrees.x = -90
-	value.modulate = (Color("b02945") if card / 13 in [1, 2] else Color("152239")) if visible_face else GOLD
+	var root := Table.card(card_root, card, visible_face)
 	root.rotation.y = angle
 	if delay >= 0:
 		root.position = Vector3(1.1, 1.75, -1.65)
@@ -461,39 +384,38 @@ func refresh_cards(animate: bool) -> void:
 		var p = game.players[i]
 		if p.folded: continue
 		var anchor: Vector3 = seats[i] * 0.57
-		anchor.y = 1.4
+		anchor.y = 1.372
 		for j in p.hole.size():
 			card_mesh(p.hole[j], (i == 0 and peek) or game.revealed, anchor + Vector3((j - 0.5) * 0.41, 0, 0), 0.0, delay if animate else -1.0)
 			delay += 0.12
 	for j in game.board.size():
-		card_mesh(game.board[j], true, Vector3((j - 2) * 0.47, 1.4, -0.2), 0.0, delay if animate else -1.0)
+		card_mesh(game.board[j], true, Vector3((j - 2) * 0.47, 1.372, -0.2), 0.0, delay if animate else -1.0)
 		delay += 0.12
 	# Bets and pot use reusable low-poly stacks.
 	for i in 4:
 		var p = game.players[i]
 		var spot: Vector3 = seats[i] * 0.42
 		for k in mini(10, int(ceil(p.bet / 20.0))):
-			cylinder(card_root, Vector3(spot.x + 0.42, 1.39 + k * 0.035, spot.z), 0.095, 0.03, material([Color("c3af69"), Color("bf4561"), Color("6eaeb5")][k % 3]))
+			Table.chip(card_root, Vector3(spot.x + 0.42, 1.375 + k * 0.021, spot.z), [Color("c3af69"), Color("bf4561"), Color("6eaeb5")][k % 3], k % 3)
 	if animate:
 		if deal_tween: deal_tween.kill()
 		animation_busy = true
 		deal_tween = create_tween()
-		for i in maxi(1, int(delay / 0.24)):
-			deal_tween.tween_property(dealer_arm, "rotation:x", -0.65, 0.12)
-			deal_tween.tween_property(dealer_arm, "rotation:x", 0.0, 0.12)
-		deal_tween.tween_interval(0.4)
+		if dealer_player and dealer_player.has_animation("deal"):
+			dealer_player.play("deal", 0.12)
+		deal_tween.tween_interval(delay + 0.6)
 		deal_tween.tween_callback(func():
 			animation_busy = false
+			if dealer_player and dealer_player.has_animation("idle"): dealer_player.play("idle", 0.25)
 			update_buttons()
 		)
 
 func update_camera() -> void:
-	camera.position = Vector3(sin(orbit) * zoom, 3.5, cos(orbit) * zoom)
-	camera.look_at(Vector3(0, 1.1, -0.2), Vector3.UP)
+	camera.position = Vector3(sin(orbit) * zoom, 2.95, cos(orbit) * zoom)
+	camera.look_at(Vector3(0, 1.45, -0.4), Vector3.UP)
 
 func _process(delta: float) -> void:
 	time += delta
-	for i in avatars.size(): avatars[i].rotation.z = sin(time * 1.2 + i) * 0.012
 	if Input.is_physical_key_pressed(KEY_Q):
 		orbit -= delta * 0.5
 		update_camera()

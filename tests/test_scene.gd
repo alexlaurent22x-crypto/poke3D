@@ -14,6 +14,12 @@ func run() -> void:
 	await create_timer(2.5).timeout
 	check(scene.camera != null and scene.card_root.get_child_count() > 0, "3D table loads and cards are dealt")
 	check(scene.seat_labels.size() == 4, "four player avatars")
+	for avatar in scene.avatars:
+		var skeletons = avatar.find_children("*", "Skeleton3D", true, false)
+		check(skeletons.size() == 1 and skeletons[0].get_bone_count() > 100, "adult skinned character loaded")
+		var animation = avatar.find_child("AnimationPlayer", true, false)
+		check(animation != null and animation.has_animation("idle") and animation.has_animation("deal"), "character animation clips imported")
+	check(scene.dealer_player != null and scene.dealer_player.has_animation("deal"), "dealer has skeletal dealing animation")
 	scene.peek_button.pressed.emit()
 	check(scene.peek and not scene.hand_label.text.contains("▧"), "peek button reveals player cards")
 	if "--capture" in OS.get_cmdline_user_args():
@@ -46,6 +52,9 @@ func run() -> void:
 		if control.text.begins_with("Rendu :"):
 			control.pressed.emit()
 			check(not scene.room_environment.ssao_enabled and not scene.high_quality, "fluid quality toggle")
+			var keys = scene.find_children("TableKey*", "Light3D", true, false)
+			check(keys.size() == 2, "two named shadow-casting table lights")
+			for light in keys: check(not light.shadow_enabled, "fluid mode disables nested shadow lights")
 			control.pressed.emit()
 	scene.game.finished = true
 	scene.reset_game()

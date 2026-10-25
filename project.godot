@@ -20,9 +20,9 @@ renderer/rendering_method.mobile="mobile"
 textures/default_filters/use_nearest_mipmap_filter=false
 environment/defaults/default_clear_color=Color(0.015, 0.019, 0.03, 1)
 
-[audio]
-driver/enable_input=false
-
 anti_aliasing/quality/msaa_3d=1
 lights_and_shadows/directional_shadow/size=2048
 lights_and_shadows/positional_shadow/atlas_size=2048
+
+[audio]
+driver/enable_input=false

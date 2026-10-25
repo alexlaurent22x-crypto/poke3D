@@ -2,7 +2,9 @@
 
 ![Aperçu du prototype](docs/preview.png)
 
-Premier prototype jouable de Texas Hold’em 3D, hors ligne, pour **Godot 4.6.3 Standard** et **Windows 10 64 bits**. Une table, un joueur et trois adversaires IA. Décor et personnages adultes originaux générés dans le moteur, sans téléchargement d’assets ni dépendance externe.
+[Comparer la première version et la refonte visuelle](docs/VISUAL_REWORK.md)
+
+Premier prototype jouable de Texas Hold’em 3D, hors ligne, pour **Godot 4.6.3 Standard** et **Windows 10 64 bits**. Une table, un joueur et trois adversaires IA. Salle Art déco et mobilier originaux, personnages adultes dérivés de la base humaine **MakeHuman CC0**, préparés dans Blender et livrés en GLB. Aucun téléchargement d’asset n’est nécessaire pour jouer.
 
 ## Lancer sous Windows 10
 
@@ -34,15 +36,15 @@ Les IA attendent environ une seconde par action. L’historique à droite est d�
 
 ## Présent dans cette version
 
-- Une salle de casino 3D : table ovale en feutre texturé, bordure dorée, fauteuils, bar, panneaux décoratifs et luminaires.
-- Avatar joueur assis, trois adversaires adultes hommes et femmes en tenues de soirée, croupière adulte provisoire avec geste de distribution et cartes qui glissent sur la table.
+- Une salle Art déco : arche, boiseries veinées, marbre, tapis à motifs, bar éclairé, banquette et lustre ; table en acajou avec rail en cuir cousu, feutre imprimé et porte-gobelets.
+- Avatar joueur assis, trois adversaires adultes hommes et femmes et croupière : véritables maillages humains avec doigts, visages, vêtements, cheveux et accessoires. Animations squelettiques de repos et de distribution, cartes glissant sur la table.
 - Hold’em No Limit : préflop, flop, turn, river, cartes brûlées, blinds, tours de parole, mises, relances minimales, tapis, règles de réouverture, pots secondaires, partage des égalités et jetons indivisibles attribués à gauche du bouton.
 - Évaluation de la meilleure combinaison de cinq cartes parmi sept, de la carte haute à la quinte flush, y compris la quinte A-2-3-4-5.
-- Interface française, piles de jetons représentant les mises, cartes animées, sons synthétisés, résultat et historique.
+- Interface française allégée, jeu de 52 cartes à figures et dos illustrés, jetons bicolores, résultat et historique. Illustrations vectorielles originales, avec rangs et symboles convertis en tracés pour rester lisibles dans Godot.
 
 ## Graphismes et configuration conseillée
 
-Le rendu **Forward+ (Vulkan)** utilise des ombres dynamiques, une exposition ACES, de l’occlusion ambiante, un léger bloom et un MSAA 2×. La scène compacte, les textures procédurales de 256 pixels et les deux sources à ombres limitent le coût. Le jeu est plafonné à 60 images/s. Le mode **fluide** désactive ombres, occlusion ambiante, bloom et MSAA.
+Le rendu **Forward+ (Vulkan)** utilise des ombres dynamiques, une exposition ACES, de l’occlusion ambiante, un léger bloom et un MSAA 2×. La scène compacte, les matériaux procéduraux, les textures vectorielles et les deux spots à ombres limitent le coût. Le jeu est plafonné à 60 images/s. Le mode **fluide** désactive ombres, occlusion ambiante, bloom et MSAA.
 
 Pour votre i7-8700 / RTX 2070 / 16 Go : commencez en mode élevé, fenêtre 1280 × 800 ou plein écran via l’agrandissement de la fenêtre, puis essayez 1920 × 1080. Les performances sur cette configuration restent à mesurer : aucune promesse de fréquence d’images sans essai sur votre PC. Mettez à jour le pilote NVIDIA si Vulkan ne démarre pas.
 
@@ -52,7 +54,7 @@ Solution de repli OpenGL si nécessaire :
 & "C:\Godot\Godot_v4.6.3-stable_win64.exe" --path . --rendering-method gl_compatibility
 ```
 
-Le mode de repli ne propose pas tous les effets de Forward+.
+Le mode de repli ne propose pas tous les effets de Forward+. Dans le cloud Linux avec Vulkan logiciel, l’affichage a été capturé mais la fermeture automatique reste bloquée ; le mode OpenGL et les tests headless se ferment normalement. Ce comportement n’a pas été testé sur votre GPU Windows. Voir le [rapport de validation](docs/VALIDATION.md).
 
 ## Produire un exécutable Windows
 
@@ -77,20 +79,28 @@ Le projet ne requiert ni serveur, ni clé API, ni gestionnaire de paquets. Depui
 ```sh
 godot --headless --path . --editor --import --quit
 godot --headless --path . --script res://tests/test_poker.gd
+godot --headless --path . --script res://tests/test_visual_assets.gd
 godot --headless --path . --script res://tests/test_scene.gd
 ```
 
 Sur une machine cloud où le dossier utilisateur est en lecture seule, utilisez `./tests/run.sh`. Sous Windows, remplacez `godot` par le chemin du programme Godot (de préférence la variante `_console.exe` pour lire les résultats).
 
 - `scripts/poker.gd` : règles et IA indépendantes du rendu.
-- `scripts/main.gd` : salle, avatars, interface, animations, audio.
+- `scripts/main.gd` : intégration de la scène, avatars, interface, animations, audio.
+- `scripts/casino_room.gd` : architecture, matériaux et lumières de la salle.
+- `scripts/table_visuals.gd` : table détaillée, cartes et jetons.
+- `assets/characters/` : quatre modèles adultes GLB, animations comprises.
+- `tools/build_characters.py` : génération des personnages dans Blender 4.3.2.
+- `assets/source/makehuman/ATTRIBUTION.md` : provenance, révision et licence CC0 des données humaines.
 - `scenes/main.tscn` : scène d’entrée.
 - `tests/` : règles, simulations et essai de l’interface.
 
 ## Limites et remplacement des assets
 
-Il s’agit d’un **prototype avec personnages stylisés et géométriques**, pas d’un rendu photoréaliste ni de personnages finis. Les silhouettes féminines ont des robes de soirée simples ; il n’y a pas encore de vêtements détaillés, de squelettes animés, de doublage ou de capture de mouvement. La croupière effectue un geste de bras et les cartes se déplacent par interpolation ; aucune simulation physique de lancer n’est utilisée.
+Les personnages ont maintenant des proportions et une topologie humaines, des yeux séparés, des cheveux, des vêtements de soirée et un squelette animé. Ils restent des **modèles de développement**, avec matériaux simples : pas encore de textures de peau photographiques, de vêtements haute couture, de doublage ou de capture de mouvement. Cette refonte ne prétend pas atteindre la qualité visuelle d’un jeu commercial fini.
 
-Pour remplacer les personnages, importez des modèles adultes originaux ou correctement licenciés au format GLB et remplacez la géométrie dans `character()`. Conservez les racines de personnage et le pivot `ArmPivot`, ou adaptez la distribution à un `AnimationPlayer`. Le jeu n’utilise aucun asset, logo, son ou modèle de Prominence Poker.
+Les fichiers GLB sont livrés et prêts à importer. Blender n’est nécessaire que pour régénérer ou retoucher ces modèles. `tools/build_characters.py` reconstruit les quatre personnages à partir des sources CC0 incluses. Pour utiliser d’autres modèles, conservez les clips `idle` et `deal`, puis adaptez les chemins `CHARACTER_PATHS` et celui de la croupière dans `scripts/main.gd`.
+
+Le mobilier, les shaders de la salle et les illustrations du jeu de cartes sont originaux. Les données anatomiques sont issues de MakeHuman sous CC0 ; la police utilisée pour les tracés vectoriels est DejaVu, licence incluse sous `assets/table/licenses/`. Aucun asset de Prominence Poker n’est utilisé.
 
 L’IA est heuristique et ne constitue pas un adversaire expert. Pas encore de multijoueur, sauvegarde de partie, éditeur d’avatar, progression ou accessibilité complète. La partie en cours reste en mémoire uniquement.
