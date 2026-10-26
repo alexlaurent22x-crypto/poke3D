@@ -1,0 +1,12 @@
+NOUVEAU POKS — UNITY 6 HDRP
+
+1. Clic droit sur le ZIP GitHub : Extraire tout.
+2. Dans le dossier extrait, double-cliquer LANCER-POKS-UNITY.cmd.
+3. Laisser terminer le premier import Unity et les shaders.
+
+Unity 6 doit etre installe pour lancer ce projet source.
+Le lanceur recherche Unity et cree un raccourci sur le Bureau.
+Aucun EXE Windows du nouveau jeu n'a encore ete construit.
+
+Le nouveau projet est dans UnityPoker.
+Les fichiers Tester_Poker.cmd et lancer_windows.bat concernent l'ancien prototype Godot, pas ce nouveau projet.
