@@ -1,0 +1,998 @@
+{
+  "materials": [
+    {
+      "name": "SheenChair_fabric_Mystere_Mango_Velvet",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.19999998807907104,
+      "baseMap": "Textures/SheenChair_fabric_Mystere_Mango_Velvet_baseMap",
+      "normalMap": "Textures/SheenChair_fabric_Mystere_Mango_Velvet_normalMap",
+      "maskMap": ""
+    },
+    {
+      "name": "SheenChair_fabric_Mystere_Peacock_Velvet",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "metallic": 1.0,
+      "smoothness": 0.19999998807907104,
+      "baseMap": "Textures/SheenChair_fabric_Mystere_Peacock_Velvet_baseMap",
+      "normalMap": "Textures/SheenChair_fabric_Mystere_Peacock_Velvet_normalMap",
+      "maskMap": ""
+    },
+    {
+      "name": "SheenChair_label",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.0,
+      "baseMap": "Textures/SheenChair_label_baseMap",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "SheenChair_metal",
+      "color": [
+        0.2800000011920929,
+        0.25999999046325684,
+        0.23000000417232513,
+        1.0
+      ],
+      "metallic": 1.0,
+      "smoothness": 0.699999988079071,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "SheenChair_wood_Black",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.5,
+      "baseMap": "Textures/SheenChair_wood_Black_baseMap",
+      "normalMap": "",
+      "maskMap": "Textures/SheenChair_wood_Black_maskMap"
+    },
+    {
+      "name": "SheenChair_wood_Brown",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.5,
+      "baseMap": "Textures/SheenChair_wood_Brown_baseMap",
+      "normalMap": "",
+      "maskMap": "Textures/SheenChair_wood_Brown_maskMap"
+    },
+    {
+      "name": "ChairDamask_fabric",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.5,
+      "baseMap": "Textures/ChairDamask_fabric_baseMap",
+      "normalMap": "Textures/ChairDamask_fabric_normalMap",
+      "maskMap": "Textures/ChairDamask_fabric_maskMap"
+    },
+    {
+      "name": "ChairDamask_label",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.0,
+      "baseMap": "Textures/ChairDamask_label_baseMap",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "ChairDamask_metal",
+      "color": [
+        0.25,
+        0.25,
+        0.25,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.5,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": "Textures/ChairDamask_metal_maskMap"
+    },
+    {
+      "name": "ChairDamask_wood",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.5,
+      "baseMap": "Textures/ChairDamask_wood_baseMap",
+      "normalMap": "Textures/ChairDamask_wood_normalMap",
+      "maskMap": "Textures/ChairDamask_wood_maskMap"
+    },
+    {
+      "name": "SheenWoodLeatherSofa_Brown",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.5,
+      "baseMap": "Textures/SheenWoodLeatherSofa_Brown_baseMap",
+      "normalMap": "Textures/SheenWoodLeatherSofa_Brown_normalMap",
+      "maskMap": "Textures/SheenWoodLeatherSofa_Brown_maskMap"
+    },
+    {
+      "name": "SheenWoodLeatherSofa_Frame",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.5,
+      "baseMap": "Textures/SheenWoodLeatherSofa_Frame_baseMap",
+      "normalMap": "Textures/SheenWoodLeatherSofa_Frame_normalMap",
+      "maskMap": "Textures/SheenWoodLeatherSofa_Frame_maskMap"
+    },
+    {
+      "name": "SheenWoodLeatherSofa_Frame_Fabric",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.5,
+      "baseMap": "Textures/SheenWoodLeatherSofa_Frame_Fabric_baseMap",
+      "normalMap": "Textures/SheenWoodLeatherSofa_Frame_Fabric_normalMap",
+      "maskMap": "Textures/SheenWoodLeatherSofa_Frame_Fabric_maskMap"
+    },
+    {
+      "name": "SheenWoodLeatherSofa_Fringe",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "metallic": 1.0,
+      "smoothness": 0.19999998807907104,
+      "baseMap": "Textures/SheenWoodLeatherSofa_Fringe_baseMap",
+      "normalMap": "Textures/SheenWoodLeatherSofa_Fringe_normalMap",
+      "maskMap": ""
+    },
+    {
+      "name": "SheenWoodLeatherSofa_Paisley",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.5,
+      "baseMap": "Textures/SheenWoodLeatherSofa_Paisley_baseMap",
+      "normalMap": "Textures/SheenWoodLeatherSofa_Paisley_normalMap",
+      "maskMap": "Textures/SheenWoodLeatherSofa_Paisley_maskMap"
+    },
+    {
+      "name": "SheenWoodLeatherSofa_Striped",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.5,
+      "baseMap": "Textures/SheenWoodLeatherSofa_Striped_baseMap",
+      "normalMap": "Textures/SheenWoodLeatherSofa_Striped_normalMap",
+      "maskMap": "Textures/SheenWoodLeatherSofa_Striped_maskMap"
+    },
+    {
+      "name": "LightsPunctualLamp_Material_0",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.5,
+      "baseMap": "Textures/LightsPunctualLamp_Material_0_baseMap",
+      "normalMap": "Textures/LightsPunctualLamp_Material_0_normalMap",
+      "maskMap": "Textures/LightsPunctualLamp_Material_0_maskMap"
+    },
+    {
+      "name": "LightsPunctualLamp_Material_1",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.5,
+      "baseMap": "Textures/LightsPunctualLamp_Material_1_baseMap",
+      "normalMap": "Textures/LightsPunctualLamp_Material_1_normalMap",
+      "maskMap": ""
+    },
+    {
+      "name": "LightsPunctualLamp_Material_2",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.5,
+      "baseMap": "Textures/LightsPunctualLamp_Material_2_baseMap",
+      "normalMap": "Textures/LightsPunctualLamp_Material_2_normalMap",
+      "maskMap": "Textures/LightsPunctualLamp_Material_2_maskMap"
+    },
+    {
+      "name": "AvatarMale_AccessoryHair",
+      "color": [
+        0.02800000086426735,
+        0.014000000432133675,
+        0.00800000037997961,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.30000001192092896,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "AvatarMale_Champagne_gold",
+      "color": [
+        0.6600000262260437,
+        0.44999998807907104,
+        0.18000000715255737,
+        1.0
+      ],
+      "metallic": 0.8199999928474426,
+      "smoothness": 0.7800000011920929,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "AvatarMale_Hair",
+      "color": [
+        0.023000000044703484,
+        0.014000000432133675,
+        0.009999999776482582,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.3500000238418579,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "AvatarMale_Iris",
+      "color": [
+        0.10999999940395355,
+        0.06199999898672104,
+        0.029999999329447746,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.7199999988079071,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "AvatarMale_Ivory_cotton",
+      "color": [
+        0.8199999928474426,
+        0.7900000214576721,
+        0.699999988079071,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.19999998807907104,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "AvatarMale_Midnight_wool",
+      "color": [
+        0.02500000037252903,
+        0.03400000184774399,
+        0.04399999976158142,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.24000000953674316,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "AvatarMale_Natural_skin",
+      "color": [
+        0.47999998927116394,
+        0.28999999165534973,
+        0.1899999976158142,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.30000001192092896,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "AvatarMale_Polished_leather",
+      "color": [
+        0.014999999664723873,
+        0.012000000104308128,
+        0.017999999225139618,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.760000005364418,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "AvatarMale_Pupil",
+      "color": [
+        0.0020000000949949026,
+        0.003000000026077032,
+        0.004000000189989805,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.8499999940395355,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "AvatarMale_Sclera",
+      "color": [
+        0.7699999809265137,
+        0.75,
+        0.6499999761581421,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.75,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "AvatarFemale_AccessoryHair",
+      "color": [
+        0.02800000086426735,
+        0.014000000432133675,
+        0.00800000037997961,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.30000001192092896,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "AvatarFemale_Champagne_gold_001",
+      "color": [
+        0.6600000262260437,
+        0.44999998807907104,
+        0.18000000715255737,
+        1.0
+      ],
+      "metallic": 0.8199999928474426,
+      "smoothness": 0.7800000011920929,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "AvatarFemale_Hair_001",
+      "color": [
+        0.11999999731779099,
+        0.054999999701976776,
+        0.017000000923871994,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.3500000238418579,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "AvatarFemale_Iris_001",
+      "color": [
+        0.12999999523162842,
+        0.20000000298023224,
+        0.17000000178813934,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.7199999988079071,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "AvatarFemale_Natural_skin_001",
+      "color": [
+        0.6100000143051147,
+        0.38999998569488525,
+        0.2800000011920929,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.30000001192092896,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "AvatarFemale_Polished_leather_001",
+      "color": [
+        0.014999999664723873,
+        0.012000000104308128,
+        0.017999999225139618,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.760000005364418,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "AvatarFemale_Pupil_001",
+      "color": [
+        0.0020000000949949026,
+        0.003000000026077032,
+        0.004000000189989805,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.8499999940395355,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "AvatarFemale_Sclera_001",
+      "color": [
+        0.7699999809265137,
+        0.75,
+        0.6499999761581421,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.75,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "AvatarFemale_Silk_eveningwear",
+      "color": [
+        0.2199999988079071,
+        0.012000000104308128,
+        0.039000000804662704,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.5800000131130219,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "OpponentFemale_AccessoryHair",
+      "color": [
+        0.02800000086426735,
+        0.014000000432133675,
+        0.00800000037997961,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.30000001192092896,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "OpponentFemale_Champagne_gold_003",
+      "color": [
+        0.6600000262260437,
+        0.44999998807907104,
+        0.18000000715255737,
+        1.0
+      ],
+      "metallic": 0.8199999928474426,
+      "smoothness": 0.7800000011920929,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "OpponentFemale_Hair_003",
+      "color": [
+        0.012000000104308128,
+        0.008999999612569809,
+        0.010999999940395355,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.3500000238418579,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "OpponentFemale_Iris_003",
+      "color": [
+        0.10999999940395355,
+        0.06199999898672104,
+        0.029999999329447746,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.7199999988079071,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "OpponentFemale_Ivory_cotton_003",
+      "color": [
+        0.8199999928474426,
+        0.7900000214576721,
+        0.699999988079071,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.19999998807907104,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "OpponentFemale_Natural_skin_003",
+      "color": [
+        0.5199999809265137,
+        0.3100000023841858,
+        0.1899999976158142,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.30000001192092896,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "OpponentFemale_Polished_leather_003",
+      "color": [
+        0.014999999664723873,
+        0.012000000104308128,
+        0.017999999225139618,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.760000005364418,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "OpponentFemale_Pupil_003",
+      "color": [
+        0.0020000000949949026,
+        0.003000000026077032,
+        0.004000000189989805,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.8499999940395355,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "OpponentFemale_Sclera_003",
+      "color": [
+        0.7699999809265137,
+        0.75,
+        0.6499999761581421,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.75,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "OpponentFemale_Silk_eveningwear_002",
+      "color": [
+        0.020999999716877937,
+        0.02500000037252903,
+        0.029999999329447746,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.5800000131130219,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "Dealer_AccessoryHair",
+      "color": [
+        0.02800000086426735,
+        0.014000000432133675,
+        0.00800000037997961,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.30000001192092896,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "Dealer_Champagne_gold_002",
+      "color": [
+        0.6600000262260437,
+        0.44999998807907104,
+        0.18000000715255737,
+        1.0
+      ],
+      "metallic": 0.8199999928474426,
+      "smoothness": 0.7800000011920929,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "Dealer_Hair_002",
+      "color": [
+        0.010999999940395355,
+        0.007000000216066837,
+        0.006000000052154064,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.3500000238418579,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "Dealer_Iris_002",
+      "color": [
+        0.10999999940395355,
+        0.06199999898672104,
+        0.029999999329447746,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.7199999988079071,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "Dealer_Natural_skin_002",
+      "color": [
+        0.2199999988079071,
+        0.10499999672174454,
+        0.06199999898672104,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.30000001192092896,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "Dealer_Polished_leather_002",
+      "color": [
+        0.014999999664723873,
+        0.012000000104308128,
+        0.017999999225139618,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.760000005364418,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "Dealer_Pupil_002",
+      "color": [
+        0.0020000000949949026,
+        0.003000000026077032,
+        0.004000000189989805,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.8499999940395355,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "Dealer_Sclera_002",
+      "color": [
+        0.7699999809265137,
+        0.75,
+        0.6499999761581421,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.75,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "Dealer_Silk_eveningwear_001",
+      "color": [
+        0.014999999664723873,
+        0.09000000357627869,
+        0.07699999958276749,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.5800000131130219,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "PokerTable_BlackLacquer",
+      "color": [
+        0.012000000104308128,
+        0.010999999940395355,
+        0.01600000075995922,
+        1.0
+      ],
+      "metallic": 0.20000000298023224,
+      "smoothness": 0.7800000011920929,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "PokerTable_BordeauxFelt",
+      "color": [
+        0.0949999988079071,
+        0.008999999612569809,
+        0.02500000037252903,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.06000000238418579,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "PokerTable_BrushedGold",
+      "color": [
+        0.7099999785423279,
+        0.47999998927116394,
+        0.1599999964237213,
+        1.0
+      ],
+      "metallic": 0.9200000166893005,
+      "smoothness": 0.760000005364418,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "PokerTable_Mahogany",
+      "color": [
+        0.0949999988079071,
+        0.02500000037252903,
+        0.017999999225139618,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.6800000071525574,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "Salon_AntiqueGold",
+      "color": [
+        0.6299999952316284,
+        0.38999998569488525,
+        0.10000000149011612,
+        1.0
+      ],
+      "metallic": 0.8799999952316284,
+      "smoothness": 0.6800000071525574,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "Salon_BlackMarble",
+      "color": [
+        0.054999999701976776,
+        0.04699999839067459,
+        0.052000001072883606,
+        1.0
+      ],
+      "metallic": 0.11999999731779099,
+      "smoothness": 0.8199999928474426,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "Salon_BordeauxSilk",
+      "color": [
+        0.14000000059604645,
+        0.00800000037997961,
+        0.02500000037252903,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.23000001907348633,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "Salon_CeilingIvory",
+      "color": [
+        0.3499999940395355,
+        0.28999999165534973,
+        0.2199999988079071,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.10000002384185791,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "Salon_EmeraldGlass",
+      "color": [
+        0.02500000037252903,
+        0.11999999731779099,
+        0.07500000298023224,
+        1.0
+      ],
+      "metallic": 0.4000000059604645,
+      "smoothness": 0.7999999970197678,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "Salon_LampIvory",
+      "color": [
+        0.9200000166893005,
+        0.6100000143051147,
+        0.25999999046325684,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.699999988079071,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "Salon_Obsidian",
+      "color": [
+        0.017999999225139618,
+        0.017000000923871994,
+        0.023000000044703484,
+        1.0
+      ],
+      "metallic": 0.14000000059604645,
+      "smoothness": 0.75,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "Salon_WalnutPanels",
+      "color": [
+        0.07999999821186066,
+        0.026000000536441803,
+        0.017999999225139618,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.6200000047683716,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "SleepingCat_CatFur",
+      "color": [
+        0.12999999523162842,
+        0.07500000298023224,
+        0.03999999910593033,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.050000011920928955,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    },
+    {
+      "name": "SleepingCat_CatNose",
+      "color": [
+        0.18000000715255737,
+        0.07500000298023224,
+        0.054999999701976776,
+        1.0
+      ],
+      "metallic": 0.0,
+      "smoothness": 0.30000001192092896,
+      "baseMap": "",
+      "normalMap": "",
+      "maskMap": ""
+    }
+  ]
+}

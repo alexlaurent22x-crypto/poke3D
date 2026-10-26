@@ -1,0 +1,38 @@
+[
+  {
+    "name": "elise.glb",
+    "license": "CC0-1.0 anatomical data derivative; see Assets/POKS/Licenses/MakeHuman-Derivatives.md",
+    "source_repository": "alexlaurent22x-crypto/poke3D",
+    "source_commit": "f30a777b217d516e2b7e7cf0471a849267a4e62e",
+    "source_path": "assets/characters/elise.glb",
+    "file": "Tools/SourceAssets/Humans/elise.glb",
+    "sha256": "072ff75ce451dbfd70384e90c314c44676df7ae44cb8ac22b5a239fcc2158474"
+  },
+  {
+    "name": "gabriel.glb",
+    "license": "CC0-1.0 anatomical data derivative; see Assets/POKS/Licenses/MakeHuman-Derivatives.md",
+    "source_repository": "alexlaurent22x-crypto/poke3D",
+    "source_commit": "f30a777b217d516e2b7e7cf0471a849267a4e62e",
+    "source_path": "assets/characters/gabriel.glb",
+    "file": "Tools/SourceAssets/Humans/gabriel.glb",
+    "sha256": "f81b392968a86d8996286e1ae4bfa4195c908a9163e2ef6a6c099e93331d25cd"
+  },
+  {
+    "name": "maya.glb",
+    "license": "CC0-1.0 anatomical data derivative; see Assets/POKS/Licenses/MakeHuman-Derivatives.md",
+    "source_repository": "alexlaurent22x-crypto/poke3D",
+    "source_commit": "f30a777b217d516e2b7e7cf0471a849267a4e62e",
+    "source_path": "assets/characters/maya.glb",
+    "file": "Tools/SourceAssets/Humans/maya.glb",
+    "sha256": "7d9c4071a84076cad6bd3bc6cf687655e7341128972d230cde992b4ff4e19542"
+  },
+  {
+    "name": "nora.glb",
+    "license": "CC0-1.0 anatomical data derivative; see Assets/POKS/Licenses/MakeHuman-Derivatives.md",
+    "source_repository": "alexlaurent22x-crypto/poke3D",
+    "source_commit": "f30a777b217d516e2b7e7cf0471a849267a4e62e",
+    "source_path": "assets/characters/nora.glb",
+    "file": "Tools/SourceAssets/Humans/nora.glb",
+    "sha256": "22d3eb6513ab7f58616139e51d1049f990014c96633eb2c9710a8b69be722a0e"
+  }
+]

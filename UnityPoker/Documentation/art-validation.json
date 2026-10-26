@@ -1,0 +1,375 @@
+[
+  {
+    "model": "AvatarFemale.fbx",
+    "sha256": "68150b8d9ba10280abd1c9669e0965c165dbff420857597f1bbc5a29c3ca2f6b",
+    "meshes": 48,
+    "triangles": 173184,
+    "bones": 163,
+    "actions": [
+      "AdultSkeleton|AdultSkeleton|deal_AdultSkeleton",
+      "AdultSkeleton|AdultSkeleton|idle_AdultSkeleton",
+      "Key|AdultSkeleton|deal_AdultSkeleton",
+      "Key|AdultSkeleton|idle_AdultSkeleton"
+    ],
+    "morphs": [
+      "Basis",
+      "Build",
+      "Eyes",
+      "Face",
+      "Jaw",
+      "Mouth",
+      "Nose"
+    ],
+    "bounds": [
+      [
+        -0.327,
+        0.327
+      ],
+      [
+        -0.126,
+        0.869
+      ],
+      [
+        0.011,
+        1.932
+      ]
+    ]
+  },
+  {
+    "model": "AvatarMale.fbx",
+    "sha256": "9f6f6715f39bae9ec94a4447750f645c2759b4ab17b02a7fcaaf675ce63982fb",
+    "meshes": 48,
+    "triangles": 178304,
+    "bones": 163,
+    "actions": [
+      "AdultSkeleton|AdultSkeleton|deal_AdultSkeleton",
+      "AdultSkeleton|AdultSkeleton|idle_AdultSkeleton",
+      "Key.001|AdultSkeleton|deal_AdultSkeleton",
+      "Key.001|AdultSkeleton|idle_AdultSkeleton"
+    ],
+    "morphs": [
+      "Basis",
+      "Build",
+      "Eyes",
+      "Face",
+      "Jaw",
+      "Mouth",
+      "Nose"
+    ],
+    "bounds": [
+      [
+        -0.399,
+        0.399
+      ],
+      [
+        -0.136,
+        0.965
+      ],
+      [
+        0.088,
+        2.141
+      ]
+    ]
+  },
+  {
+    "model": "BartenderFemale.fbx",
+    "sha256": "1dea51eb318fbdb2bc342bcf450212b2b6a54ee0dfe91d617a881f847f88c4b6",
+    "meshes": 48,
+    "triangles": 173184,
+    "bones": 163,
+    "actions": [
+      "AdultSkeleton|Scene",
+      "Key.002|Scene"
+    ],
+    "morphs": [
+      "Basis",
+      "Build",
+      "Eyes",
+      "Face",
+      "Jaw",
+      "Mouth",
+      "Nose"
+    ],
+    "bounds": [
+      [
+        -0.326,
+        0.326
+      ],
+      [
+        -0.142,
+        0.454
+      ],
+      [
+        -0.497,
+        1.932
+      ]
+    ]
+  },
+  {
+    "model": "ChairDamask.fbx",
+    "sha256": "2846a9c2aa2b145f70372e4459dfdd3d8c2a1d376fde51bd937926e050f62449",
+    "meshes": 11,
+    "triangles": 9984,
+    "bones": 0,
+    "actions": [],
+    "morphs": [],
+    "bounds": [
+      [
+        -0.415,
+        0.414
+      ],
+      [
+        -0.295,
+        0.277
+      ],
+      [
+        -0.0,
+        0.687
+      ]
+    ]
+  },
+  {
+    "model": "Dealer.fbx",
+    "sha256": "841275e28c9854af7c4b1e6d8a069829ba1e4bbbe9489611e46a4640706624d3",
+    "meshes": 48,
+    "triangles": 173424,
+    "bones": 163,
+    "actions": [
+      "AdultSkeleton|AdultSkeleton|deal_AdultSkeleton",
+      "AdultSkeleton|AdultSkeleton|idle_AdultSkeleton",
+      "Key.003|AdultSkeleton|deal_AdultSkeleton",
+      "Key.003|AdultSkeleton|idle_AdultSkeleton"
+    ],
+    "morphs": [
+      "Basis",
+      "Build",
+      "Eyes",
+      "Face",
+      "Jaw",
+      "Mouth",
+      "Nose"
+    ],
+    "bounds": [
+      [
+        -0.34,
+        0.34
+      ],
+      [
+        -0.133,
+        0.905
+      ],
+      [
+        0.031,
+        2.022
+      ]
+    ]
+  },
+  {
+    "model": "GuardMale.fbx",
+    "sha256": "d2c7d0c8291d0bd535a43123a3cf6b406a0ab655e02ea51d7c7a72833ded2281",
+    "meshes": 48,
+    "triangles": 178304,
+    "bones": 163,
+    "actions": [
+      "AdultSkeleton|Scene",
+      "Key.004|Scene"
+    ],
+    "morphs": [
+      "Basis",
+      "Build",
+      "Eyes",
+      "Face",
+      "Jaw",
+      "Mouth",
+      "Nose"
+    ],
+    "bounds": [
+      [
+        -0.375,
+        0.375
+      ],
+      [
+        -0.151,
+        0.592
+      ],
+      [
+        -0.496,
+        2.141
+      ]
+    ]
+  },
+  {
+    "model": "LightsPunctualLamp.fbx",
+    "sha256": "4620fc1778b4945055969d58459d1ed7302fb1c366d84c37854e57c0787b4188",
+    "meshes": 3,
+    "triangles": 6000,
+    "bones": 0,
+    "actions": [],
+    "morphs": [],
+    "bounds": [
+      [
+        -0.312,
+        0.815
+      ],
+      [
+        -0.36,
+        0.362
+      ],
+      [
+        0.011,
+        1.875
+      ]
+    ]
+  },
+  {
+    "model": "OpponentFemale.fbx",
+    "sha256": "437abc374858948b143ded20b669a553d07e5e496b856e7f78f22d5b90dc47cf",
+    "meshes": 48,
+    "triangles": 179184,
+    "bones": 163,
+    "actions": [
+      "AdultSkeleton|AdultSkeleton|deal_AdultSkeleton",
+      "AdultSkeleton|AdultSkeleton|idle_AdultSkeleton",
+      "Key.005|AdultSkeleton|deal_AdultSkeleton",
+      "Key.005|AdultSkeleton|idle_AdultSkeleton"
+    ],
+    "morphs": [
+      "Basis",
+      "Build",
+      "Eyes",
+      "Face",
+      "Jaw",
+      "Mouth",
+      "Nose"
+    ],
+    "bounds": [
+      [
+        -0.312,
+        0.312
+      ],
+      [
+        -0.117,
+        0.804
+      ],
+      [
+        -0.023,
+        1.776
+      ]
+    ]
+  },
+  {
+    "model": "PokerTable.fbx",
+    "sha256": "53ec2b2d621ae787ff7302c4101678a7197c0c63690f363edf0fd00e0a36b8cd",
+    "meshes": 26,
+    "triangles": 49012,
+    "bones": 0,
+    "actions": [],
+    "morphs": [],
+    "bounds": [
+      [
+        -1.72,
+        1.72
+      ],
+      [
+        -1.05,
+        1.05
+      ],
+      [
+        0.015,
+        0.949
+      ]
+    ]
+  },
+  {
+    "model": "Salon.fbx",
+    "sha256": "2a07b60163c3499e61a250253943dc0480142f72bfb36f8a17f82bb2cf3498c5",
+    "meshes": 334,
+    "triangles": 235316,
+    "bones": 0,
+    "actions": [],
+    "morphs": [],
+    "bounds": [
+      [
+        -7.0,
+        7.0
+      ],
+      [
+        -7.0,
+        7.0
+      ],
+      [
+        -0.23,
+        4.725
+      ]
+    ]
+  },
+  {
+    "model": "SheenChair.fbx",
+    "sha256": "0738ee1806484cd09fa282eee9faba68dfedae8b8f3879285908e9903e288291",
+    "meshes": 4,
+    "triangles": 39936,
+    "bones": 0,
+    "actions": [],
+    "morphs": [],
+    "bounds": [
+      [
+        -0.414,
+        0.413
+      ],
+      [
+        -0.294,
+        0.277
+      ],
+      [
+        -0.0,
+        0.686
+      ]
+    ]
+  },
+  {
+    "model": "SheenWoodLeatherSofa.fbx",
+    "sha256": "eedac8853dd34ab746279eed0479d866542b01f2bbaa247b9ba4cd6144f8bb03",
+    "meshes": 6,
+    "triangles": 46492,
+    "bones": 0,
+    "actions": [],
+    "morphs": [],
+    "bounds": [
+      [
+        -1.363,
+        1.363
+      ],
+      [
+        -0.46,
+        0.463
+      ],
+      [
+        0.001,
+        1.118
+      ]
+    ]
+  },
+  {
+    "model": "SleepingCat.fbx",
+    "sha256": "2bd648ac044d81ce3a66bd3bc4022b8ad371210d106776f8390aaa2d8655dfc4",
+    "meshes": 11,
+    "triangles": 10224,
+    "bones": 0,
+    "actions": [],
+    "morphs": [],
+    "bounds": [
+      [
+        -0.486,
+        0.508
+      ],
+      [
+        -0.365,
+        0.28
+      ],
+      [
+        -0.01,
+        0.44
+      ]
+    ]
+  }
+]

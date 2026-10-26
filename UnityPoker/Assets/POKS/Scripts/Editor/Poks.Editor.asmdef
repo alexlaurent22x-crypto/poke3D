@@ -1,0 +1,1 @@
+{"name":"Poks.Editor","rootNamespace":"Poks.Editor","references":["Poks.Runtime","Poks.Core","Unity.RenderPipelines.Core.Runtime","Unity.RenderPipelines.HighDefinition.Runtime"],"includePlatforms":["Editor"]}

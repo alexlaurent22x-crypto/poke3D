@@ -1,0 +1,10 @@
+{
+  "name": "Poks.Runtime",
+  "rootNamespace": "Poks",
+  "references": [
+    "Poks.Core",
+    "UnityEngine.UI",
+    "Unity.RenderPipelines.Core.Runtime",
+    "Unity.RenderPipelines.HighDefinition.Runtime"
+  ]
+}

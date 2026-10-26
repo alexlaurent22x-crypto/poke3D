@@ -1,0 +1,16 @@
+POKS UNITY 6 HDRP — VALIDATION EFFECTUÉE DANS LE CLOUD LINUX
+
+Unity Editor et Windows ne sont pas disponibles : aucun résultat ci-dessous ne constitue une compilation, un test Play Mode ou un export Unity.
+
+Cœur C# compilé et exécuté sous .NET 8
+PASS: exhaustive 2,598,960 five-card hand categories.
+PASS: 4248 checks; 100 complete three-player tournaments; evaluator and AI smoke checks.
+
+Analyse syntaxique C# 9 seulement
+C# 9 syntax: 13 files, 0 errors. This does not compile or validate Unity APIs.
+
+Ressources et provenance
+PASS: 248 project/provenance/media checks. Unity import, rendering and Windows execution remain UNTESTED.
+
+FBX : 13 fichiers réimportés dans Blender 4.3.2 ; rapport art-validation.json avec empreintes SHA-256. Squelettes, clips et morphs contrôlés.
+Blender-layout-review.png : rendu de revue de géométrie sous Blender/Cycles, pas une capture Unity.
